@@ -1,5 +1,5 @@
 # Variables
-REGISTRY ?=  # Allow overriding in GitHub Actions or via command line
+REGISTRY ?=
 REPOSITORY ?= vault-spring
 ENV ?= LOCAL  # Allow ENV to be overridden (defaults to LOCAL)
 
@@ -22,7 +22,7 @@ endif
 
 # Build, tag, and push the Docker image
 docker-build-push:
-	DOCKER_BUILDKIT=0 docker build \
+	DOCKER_BUILDKIT=1 docker build \
 		$(if $(PLATFORM),--platform $(PLATFORM)) \
 		--build-arg ENV=$(ENV) \
 		$(if $(REGISTRY),--tag $(REGISTRY)/$(REPOSITORY):$(IMAGE_TAG)) \
@@ -32,10 +32,6 @@ docker-build-push:
 # Local build target (for ARM64 architecture or default local configuration)
 docker-build-local:
 	$(MAKE) docker-build-push ENV=LOCAL
-
-# Local environment build (with push)
-docker-build-push-local:
-	$(MAKE) docker-build-push ENV=LOCAL REGISTRY=901450389408.dkr.ecr.ap-southeast-3.amazonaws.com
 
 # DEV environment build (with push)
 docker-build-push-dev:
