@@ -4,9 +4,9 @@ FROM maven:3.8.4-openjdk-11 AS build
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml and other configuration files first to leverage Docker cache
-COPY pom.xml .
-COPY settings.xml .  # Optional: If you have custom Maven settings
+# Copy the pom.xml and settings.xml
+COPY pom.xml . 
+COPY settings.xml /app/settings.xml  # Explicit path to avoid conflicts
 
 # Download the dependencies (this will cache dependencies unless pom.xml changes)
 RUN mvn clean install -DskipTests
