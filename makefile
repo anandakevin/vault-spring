@@ -1,4 +1,5 @@
 # Variables
+PROJECT_NAME = vault-spring
 REGISTRY ?=
 REPOSITORY ?= vault-spring
 ENV ?= LOCAL  # Allow ENV to be overridden (defaults to LOCAL)
@@ -40,3 +41,34 @@ docker-build-push-dev:
 # PROD environment build (with push)
 docker-build-push-prod:
 	$(MAKE) docker-build-push ENV=PROD REGISTRY=$(REGISTRY)
+
+# Define modules to build or run
+MODULES = SpringAutowiring SpringAutowiringAnnotation SpringHelloWorld
+
+# Commands to clean, compile, and run the Spring Boot app
+clean:
+	mvn clean
+
+compile:
+	mvn compile
+
+package:
+	mvn clean package
+
+run:
+	mvn spring-boot:run
+
+test:
+	mvn test
+
+# Run all modules specified in the MODULES variable
+run-specific-modules:
+	mvn spring-boot:run -pl $(MODULES)
+
+# Run a specific module (example: module-a)
+run-module-SpringHelloWorld:
+	mvn spring-boot:run -pl SpringHelloWorld
+
+# Test a specific module (example: module-a)
+test-module-SpringHelloWorld:
+	mvn test -pl SpringHelloWorld

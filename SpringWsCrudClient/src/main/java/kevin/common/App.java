@@ -1,13 +1,12 @@
 package kevin.common;
 
-import kevin.service.Customer;
-import org.springframework.web.client.RestTemplate;
-
-import java.sql.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static sun.misc.Version.println;
+import org.springframework.web.client.RestTemplate;
+
+import kevin.service.Customer;
+
 
 public class App {
 //    static final String uri = "http://localhost:8080/SpringWsCloud/";
