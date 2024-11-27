@@ -4,15 +4,11 @@ FROM maven:3.8.4-openjdk-11 AS build
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml and settings.xml
-COPY pom.xml . 
-COPY settings.xml /app/settings.xml  # Explicit path to avoid conflicts
+# Copy the entire codebase (assuming all Spring Boot apps are in submodules)
+COPY . .
 
 # Download the dependencies (this will cache dependencies unless pom.xml changes)
 RUN mvn clean install -DskipTests
-
-# Copy the entire codebase (assuming all Spring Boot apps are in submodules)
-COPY . .
 
 # Build all the Spring Boot apps (replace the paths with your actual modules)
 RUN mvn clean package -DskipTests

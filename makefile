@@ -23,7 +23,7 @@ endif
 
 # Build, tag, and push the Docker image
 docker-build-push:
-	DOCKER_BUILDKIT=1 docker build \
+	docker build \
 		$(if $(PLATFORM),--platform $(PLATFORM)) \
 		--build-arg ENV=$(ENV) \
 		$(if $(REGISTRY),--tag $(REGISTRY)/$(REPOSITORY):$(IMAGE_TAG)) \
@@ -34,7 +34,7 @@ docker-build-push:
 docker-build-local:
 	$(MAKE) docker-build-push ENV=LOCAL
 
-# DEV environment build (with push)
+# DEV environment build (with push)	
 docker-build-push-dev:
 	$(MAKE) docker-build-push ENV=DEV REGISTRY=$(REGISTRY)
 
