@@ -49,6 +49,6 @@ jobs:
       - name: Build and push Docker image using Makefile
         env:
           REGISTRY: ${{ secrets.DOCKER_USERNAME }}
-          REPOSITORY: ${{ github.repository }}
+          REPOSITORY: ${{ github.event.repository.name }}
           IMAGE_TAG: ${{ github.ref_name }}
         run: make docker-build-push-dev
