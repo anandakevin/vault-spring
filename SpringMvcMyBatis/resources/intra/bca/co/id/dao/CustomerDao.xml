@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "intra.bca.co.id.dao.CustomerDao">
+
+<cache />
+
+<select id = "findAllCustomer" resultType = "intra.bca.co.id.service.Customer">
+	SELECT CUST_ID as custId,
+		FULL_NAME as fullName,
+		ADDRESS as address,
+		EMAIL as email
+	FROM CUSTOMER
+</select>
+
+<!-- apabila tidak menggunakan stored procedure -->
+<!--
+<select id = "findByCustomerId" parameterType = "int" resultType = "intra.bca.co.id.service.Customer">
+	SELECT CUST_ID as custId,
+		FULL_NAME as fullName,
+		ADDRESS as address,
+		EMAIL as email
+	FROM CUSTOMER
+	WHERE CUST_ID = #{custId}
+</select>
+-->
+
+<!-- apabila menggunakan stored procedure -->
+<select id = "findByCustomerId" parameterType = "int" resultType = "intra.bca.co.id.service.Customer" statementType = "CALLABLE">
+	EXEC findByCustomerId @custId = #{custId}
+</select>
+
+<insert id = "insert" parameterType = "intra.bca.co.id.service.Customer">
+	parameterType = "intra.bca.co.id.service.Customer">
+	INSERT INTO CUSTOMER (CUST_ID, FULL_NAME, ADDRESS, EMAIL) VALUES (#{custId}, #{fullName}, #{address}, #{email})
+</insert>
+
+<update id = "update" parameterType = "intra.bca.co.id.service.Customer">
+	parameterType = "intra.bca.co.id.service.Customer">
+	UPDATE CUSTOMER
+	SET FULL_NAME = #{fullName}, ADDRESS = #{address}, EMAIL = #{email}
+	WHERE CUST_ID = #{custId}
+</update>
+
+<delete id = "delete" parameterType = "int">
+	DELETE CUSTOMER
+	WHERE CUST_ID = #{custId}
+</delete>
+
+</mapper>

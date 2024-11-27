@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "kevin.service.Customer" table = "customer" schema = "GLM">
+        <!-- kalau My SQL tambahin schema = "dbo" di atas -->
+        <!-- Kalau Oracle, by default nama schemanya sama dengan nama username nya utk login database, disini GLM -->
+        <!-- Cuman jika tidak tau schemanya yg mana, maka tidak perlu pakai schema -->
+
+        <!-- tag meta ini hanya utk deskripsi, boleh dihapus -->
+        <meta attribute="class-description">
+            This class contains the Customer mapping from CustomerDaoImpl to Customer Table in Database
+        </meta>
+
+        <id name = "custId" type = "int">
+            <column name = "CUST_ID" />
+        </id>
+        <property name = "fullName" type = "string">
+            <column name = "FULL_NAME" length = "50" not-null="true" unique="false" />
+        </property>
+        <property name = "address" type = "string">
+            <column name = "ADDRESS" length = "50" not-null="true" unique="false" />
+        </property>
+        <property name = "email" type = "string">
+            <column name = "EMAIL" length = "50" not-null="true" unique="false" />
+        </property>
+    </class>
+</hibernate-mapping>

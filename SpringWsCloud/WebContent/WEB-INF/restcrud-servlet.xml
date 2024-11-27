@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
+>
+    <context:annotation-config />
+    <context:component-scan base-package="kevin.controller" />
+    <mvc:annotation-driven />
+
+    <bean id="propertyConfigurer" class = "org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:jdbc.properties</value>
+        </property>
+    </bean>
+
+    <bean id = "mysqlDataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value = "${mysql.driverClassName}" />
+        <property name="url" value="${mysql.url}" />
+        <property name="username" value="${mysql.username}" />
+        <property name="password" value = "${mysql.password}" />
+    </bean>
+
+    <bean id="oracleDataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="dataSourceName" value="${oracle.driver-class-name}"/>
+        <property name="URL" value="${oracle.url}"/>
+        <property name="user" value="${oracle.username}"/>
+        <property name="password" value="${oracle.password}"/>
+    </bean>
+
+    <bean id = "sessionFactory" class = "org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref = "oracleDataSource" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${oracle.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>Customer.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:spring-service.xml" />
+
+    <bean id = "transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+</beans>
